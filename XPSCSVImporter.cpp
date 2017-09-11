@@ -25,7 +25,7 @@
 
 main()
 {
-    int i;
+	int i;
     string strFile = GetOpenBox("*.csv");
     CSVImporter csv_importer();
     Worksheet wks;
@@ -36,9 +36,6 @@ main()
     {
     	wks.DeleteCol(i);
     }
-    foreach(Column column in wks.Columns)
-    {
-        column.SetUnits("Abs");
-    }
+    csv_importer.setColumnPropierties(&wks);
 
 }

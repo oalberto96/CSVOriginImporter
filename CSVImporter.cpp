@@ -69,5 +69,27 @@ Worksheet CSVImporter::importSample(string str_path)
         out_str("Error al cargar el archivo: importSample");
     }
     return wks;
+}
 
+void CSVImporter::setColumnPropierties(Worksheet *wks)
+{
+    int i = 0;
+    string name = "mins", aux_name;
+    int column_counter = 0;
+    foreach(Column column in wks->Columns)
+    {
+        if (column_counter != 0)
+        {
+            aux_name = "" + i + name ;
+            i +=5;
+            column.SetName(aux_name);
+            column.SetUnits("Abs");
+        }
+        else
+        {
+            column.SetName("Wavelength");
+            column.SetUnits("Wavelength (nm)");
+        }
+        column_counter++;
+    }
 }

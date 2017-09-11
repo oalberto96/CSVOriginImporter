@@ -15,6 +15,7 @@ public:
     Worksheet importSample(string str_path);
     bool isValidPath(string str_path);
     WorksheetPage generateWoorkBook();
+    void setColumnPropierties(Worksheet *wks);
 };
 
 
