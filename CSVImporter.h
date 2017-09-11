@@ -12,7 +12,7 @@ public:
     string createCopy(string str_path);
     string loadTextFile(string str_path);
     string replaceComas(string str_path_temp);
-    void importSample(string str_path);
+    Worksheet importSample(string str_path);
     bool isValidPath(string str_path);
     WorksheetPage generateWoorkBook();
 };

@@ -25,8 +25,20 @@
 
 main()
 {
+    int i;
     string strFile = GetOpenBox("*.csv");
     CSVImporter csv_importer();
-    csv_importer.importSample(strFile);
+    Worksheet wks;
+    wks = csv_importer.importSample(strFile);
+    int num_col = wks.GetNumCols();
+    wks.AutoSize(AS_SELECTION);
+    for (i=2;i<num_col;i++)
+    {
+    	wks.DeleteCol(i);
+    }
+    foreach(Column column in wks.Columns)
+    {
+        column.SetUnits("Abs");
+    }
 
 }

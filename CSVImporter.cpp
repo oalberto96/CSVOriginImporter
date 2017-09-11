@@ -49,24 +49,25 @@ string CSVImporter::replaceComas(string str_content_file)
 }
 
 
-void CSVImporter::importSample(string str_path)
+Worksheet CSVImporter::importSample(string str_path)
 {
     int column_number = 57;
     ASCIMP ascii_importer;
     WorksheetPage wksPage;
     wksPage.Create("STAT", CREATE_VISIBLE );
+    int index = wksPage.AddLayer("New Sheet");
+    Worksheet wks = wksPage.Layers(index);
     if(AscImpReadFileStruct(str_path, &ascii_importer) == 0)
     {
-        int index = wksPage.AddLayer("New Sheet");
-        Worksheet wks = wksPage.Layers(index);
+
         wks.ImportASCII(str_path, ascii_importer);
         wks.Show = true;
-
         out_str("Archivo importado con exito");
     }
     else
     {
         out_str("Error al cargar el archivo: importSample");
     }
+    return wks;
 
 }
