@@ -11,7 +11,9 @@
 ////////////////////////////////////////////////////////////////////////////////////
 
 #include <Origin.h>
+#include "WorksheetConversor.h"
 #include "CSVImporter.h"
+
 ////////////////////////////////////////////////////////////////////////////////////
 
 //#pragma labtalk(0) // to disable OC functions for LT calling.
@@ -22,20 +24,13 @@
 
 ////////////////////////////////////////////////////////////////////////////////////
 // Start your functions here.
-
 main()
 {
-	int i;
     string strFile = GetOpenBox("*.csv");
     CSVImporter csv_importer();
     Worksheet wks;
     wks = csv_importer.importSample(strFile);
-    int num_col = wks.GetNumCols();
     wks.AutoSize(AS_SELECTION);
-    for (i=2;i<num_col;i++)
-    {
-    	wks.DeleteCol(i);
-    }
-    csv_importer.setColumnPropierties(&wks);
-
+	csv_importer.deleteColumns(&wks);
+    csv_importer.setColumnProperties(&wks);
 }

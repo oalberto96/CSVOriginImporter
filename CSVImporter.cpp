@@ -17,38 +17,6 @@ bool CSVImporter::isValidPath(string str_path)
 		return false;
 }
 
-WorksheetPage CSVImporter::generateWoorkBook()
-{
-	WorksheetPage wsp;
-	return wsp
-}
-
-string CSVImporter::createCopy(string str_path)
-{
-    string temp_str_patch = str_path;
-    temp_str_patch.Replace(".csv",".temp");
-    if(!CopyFile(str_path, temp_str_patch))
-    {
-        return NULL;
-    }
-    return temp_str_patch;
-}
-
-string CSVImporter::loadTextFile(string str_path)
-{
-    string content_file;
-    LoadTextFile(content_file, str_path);
-    return content_file;
-}
-
-string CSVImporter::replaceComas(string str_content_file)
-{
-    str_content_file.Replace(","," ");
-    str_content_file.Replace(".",",");
-    return str_content_file;
-}
-
-
 Worksheet CSVImporter::importSample(string str_path)
 {
     int column_number = 57;
@@ -59,7 +27,6 @@ Worksheet CSVImporter::importSample(string str_path)
     Worksheet wks = wksPage.Layers(index);
     if(AscImpReadFileStruct(str_path, &ascii_importer) == 0)
     {
-
         wks.ImportASCII(str_path, ascii_importer);
         wks.Show = true;
         out_str("Archivo importado con exito");
@@ -71,7 +38,17 @@ Worksheet CSVImporter::importSample(string str_path)
     return wks;
 }
 
-void CSVImporter::setColumnPropierties(Worksheet *wks)
+void CSVImporter::deleteColumns(Worksheet *wks)
+{
+    int i;
+    int num_col = wks->GetNumCols();
+    for (i=2;i<num_col;i++)
+    {
+    	wks->DeleteCol(i);
+    }
+}
+
+void CSVImporter::setColumnProperties(Worksheet *wks)
 {
     int i = 0;
     string name = "mins", aux_name;

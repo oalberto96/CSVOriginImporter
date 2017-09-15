@@ -9,13 +9,10 @@ class CSVImporter
 {
 public:
     CSVImporter();
-    string createCopy(string str_path);
-    string loadTextFile(string str_path);
-    string replaceComas(string str_path_temp);
     Worksheet importSample(string str_path);
     bool isValidPath(string str_path);
-    WorksheetPage generateWoorkBook();
-    void setColumnPropierties(Worksheet *wks);
+    void setColumnProperties(Worksheet *wks);
+    void deleteColumns(Worksheet *wks);
 };
 
 
