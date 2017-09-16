@@ -10,7 +10,8 @@ class WorksheetConversor
 {
 public:
     WorksheetConversor();
-    Column RowtoColumn(Worksheet* wks, int rowIndex);
+    void RowtoColumn(Worksheet* wks,Column col,int rowIndex);
+    void generateTimeColumn(Column col);
 };
 
 

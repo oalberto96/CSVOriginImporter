@@ -3,6 +3,7 @@
 //
 
 #include "CSVImporter.h"
+#include "WorksheetConversor.h"
 
 CSVImporter::CSVImporter()
 {
@@ -15,6 +16,16 @@ bool CSVImporter::isValidPath(string str_path)
         return true;
     else
 		return false;
+}
+
+Worksheet CSVImporter::createWorsheet()
+{
+    WorksheetPage wksPage;
+    wksPage.Create("STAT", CREATE_VISIBLE );
+    int index = wksPage.AddLayer("New Sheet");
+    Worksheet wks = wksPage.Layers(index);
+    wks.Show = true;
+    return wks;
 }
 
 Worksheet CSVImporter::importSample(string str_path)
@@ -36,6 +47,25 @@ Worksheet CSVImporter::importSample(string str_path)
         out_str("Error al cargar el archivo: importSample");
     }
     return wks;
+}
+
+void CSVImporter::generateSample(Worksheet *wks)
+{
+	int user_row = 57;
+    WorksheetConversor wks_conversor();
+    Worksheet wks_sample;
+    wks_sample = createWorsheet();
+    wks_sample.AddCol("s", "s"); //Add column AA0
+    wks_sample.AddCol("s", "s");// Add column LnAA0
+    //Column Time
+    Column col_time(wks_sample,0);
+    wks_conversor.generateTimeColumn(col_time);
+    col_time.SetName("Time");
+    //Column A(Y)
+    Column col(wks_sample, 1);
+    wks_conversor.RowtoColumn(wks,col,user_row);
+    col.SetName("A");
+    //Column AA0
 }
 
 void CSVImporter::deleteColumns(Worksheet *wks)

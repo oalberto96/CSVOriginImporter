@@ -33,4 +33,6 @@ main()
     wks.AutoSize(AS_SELECTION);
 	csv_importer.deleteColumns(&wks);
     csv_importer.setColumnProperties(&wks);
+    csv_importer.generateSample(&wks);
+
 }
