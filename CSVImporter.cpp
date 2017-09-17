@@ -4,6 +4,7 @@
 
 #include "CSVImporter.h"
 #include "WorksheetConversor.h"
+#include "MathColumns.h"
 
 CSVImporter::CSVImporter()
 {
@@ -53,6 +54,7 @@ void CSVImporter::generateSample(Worksheet *wks)
 {
 	int user_row = 57;
     WorksheetConversor wks_conversor();
+    MathColumns column_operator();
     Worksheet wks_sample;
     wks_sample = createWorsheet();
     wks_sample.AddCol("s", "s"); //Add column AA0
@@ -66,6 +68,13 @@ void CSVImporter::generateSample(Worksheet *wks)
     wks_conversor.RowtoColumn(wks,col,user_row);
     col.SetName("A");
     //Column AA0
+    Column col_AA0(wks_sample, 2);
+    column_operator.columnDivide(col_AA0);
+    col_AA0.SetName("AA0");
+    //Column LnAA0
+    Column col_LnAA0(wks_sample, 3);
+    column_operator.columnLn(col_LnAA0);
+    col_LnAA0.SetName("LnAA0");
 }
 
 void CSVImporter::deleteColumns(Worksheet *wks)

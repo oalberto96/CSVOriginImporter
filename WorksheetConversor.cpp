@@ -24,9 +24,15 @@ void WorksheetConversor::generateTimeColumn(Column col)
 void WorksheetConversor::RowtoColumn(Worksheet* wks, Column col, int rowIndex)
 {
     vector<double>& vec = col.GetDataObject();
+    bool first_column = true;
     foreach(Column column in wks->Columns)
     {
+        if(first_column)
+        {
+            first_column = false;
+            continue;
+        }
         vectorbase &column_data = column.GetDataObject();
-        vec.Add(column_data[56]);
+        vec.Add(column_data[rowIndex - 1]);
     }
 }
