@@ -13,7 +13,7 @@ public:
     bool isValidPath(string str_path);
     void setColumnProperties(Worksheet *wks);
     void deleteColumns(Worksheet *wks);
-    void generateSample(Worksheet *wks);
+    void generateSample(Worksheet *wks, int user_row);
     Worksheet createWorsheet();
 };
 

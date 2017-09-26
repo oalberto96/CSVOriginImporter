@@ -33,6 +33,8 @@ main()
     wks.AutoSize(AS_SELECTION);
 	csv_importer.deleteColumns(&wks);
     csv_importer.setColumnProperties(&wks);
-    csv_importer.generateSample(&wks);
+    string str_row = InputBox("Ingrese el numero de columna a importar", "");
+    int row_number =  atoi(str_row);
+    csv_importer.generateSample(&wks,row_number);
 
 }

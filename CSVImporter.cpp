@@ -31,7 +31,7 @@ Worksheet CSVImporter::createWorsheet()
 
 Worksheet CSVImporter::importSample(string str_path)
 {
-    int column_number = 57;
+
     ASCIMP ascii_importer;
     WorksheetPage wksPage;
     wksPage.Create("STAT", CREATE_VISIBLE );
@@ -50,9 +50,8 @@ Worksheet CSVImporter::importSample(string str_path)
     return wks;
 }
 
-void CSVImporter::generateSample(Worksheet *wks)
+void CSVImporter::generateSample(Worksheet *wks,int user_row)
 {
-	int user_row = 57;
     WorksheetConversor wks_conversor();
     MathColumns column_operator();
     Worksheet wks_sample;
@@ -75,6 +74,20 @@ void CSVImporter::generateSample(Worksheet *wks)
     Column col_LnAA0(wks_sample, 3);
     column_operator.columnLn(col_LnAA0);
     col_LnAA0.SetName("LnAA0");
+
+    //Graph
+    DataRange dr;
+    dr.Add(wks_sample, 0, "X"); // 1st column for X data
+    dr.Add(wks_sample, 3, "Y"); // 2nd column for Y data
+    // Create a graph window
+    GraphPage gp;
+    gp.Create("Origin");
+    GraphLayer gl = gp.Layers(); // Get active layer
+    int nPlotIndex = gl.AddPlot(dr, IDM_PLOT_SCATTER);// Returns plot index (offset is 0), else return -1 for error
+    if( nPlotIndex >= 0 )
+    {
+        gl.Rescale();
+    }
 }
 
 void CSVImporter::deleteColumns(Worksheet *wks)
