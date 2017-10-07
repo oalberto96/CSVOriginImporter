@@ -67,51 +67,62 @@ void MathColumns::linearFit(Worksheet wks, int x, int y)
     outputToWks(wksPg, &psFitParameter);
 
     XYRange iy(dr);
-    ReportData rd();
-    fitLinearReport(iy,rd);
+
+    Tree trDummy;
+    ReportData rd(trDummy);
+    WorksheetPage wksPage = wks.GetPage();
+	int nLayer = wksPage.AddLayer();
+	Worksheet wksReportData = wksPage.Layers(nLayer);
+	rd.SetWorksheet(wks);
+    fitLinearReport(iy,rd,wks);
 }
 
 
-void MathColumns::fitLinearReport(const XYRange& iy, ReportData& rd)
+    void MathColumns::fitLinearReport(const XYRange& iy, ReportData& rd, Worksheet wks)
 {
-	// create report table
-	ReportTable rt;
-	rt = rd.CreateTable("ReportData", "Fitted Data", TABLE_ID);
-	int nSubID = SUBNODE_ID_BEGIN;
+    // create report table
+    ReportTable rt;
+    rt = rd.CreateTable("ReportData", "Fitted Data", TABLE_ID);
+    int nSubID = SUBNODE_ID_BEGIN;
 
-	DWORD dwRules = DRR_GET_DEPENDENT | DRR_NO_FACTORS;
-	int nNumData = iy.GetNumData(dwRules);
+    DWORD dwRules = DRR_GET_DEPENDENT | DRR_NO_FACTORS;
+    int nNumData = iy.GetNumData(dwRules);
 
-	for(int nRange = 0; nRange < nNumData; nRange++)
-	{
-        DataRange drOne;
-        iy.GetSubRange(drOne, dwRules, nRange);
-	    vector vx, vy;
-        drOne.GetData(dwRules, 0, NULL, NULL, &vy, &vx);
-        // there are two parameters in linear fitting
-        FitParameter sFitParameter[2];
-        if( STATS_NO_ERROR == ocmath_linear_fit(vx, vy,vy.GetSize(), sFitParameter) )
-	    {
-	    // add fitted X data to report table
-        string strName = "X" + (nRange+1);
-        string strLongName = "X";
-        rt.AddColumn(vx, strName, nSubID++, strLongName, OKDATAOBJ_DESIGNATION_X);
+    for(int nRange = 0; nRange < nNumData; nRange++)
+    {
+         DataRange drOne;
+         iy.GetSubRange(drOne, dwRules, nRange);
 
-    	 // calculate fitted Y data
-    	 double dIntercept = sFitParameter[0].Value;
-    	 double dSlope = sFitParameter[1].Value;
-    	 vector vFitY;
-    	 vFitY = vx * dSlope + dIntercept;
+         vector vx, vy;
+         drOne.GetData(dwRules, 0, NULL, NULL, &vy, &vx);
 
-    	 // add fitted Y data to report table
-    	 strName = "Y" + (nRange+1);
-    	 string strRange;
-    	 strRange = drOne.GetDescription(GETLC_COL_LN_ONLY);
-    	 strLongName = "Fitted data on " + strRange;
-    	 rt.AddColumn(vFitY, strName, nSubID++, strLongName,
-    	 OKDATAOBJ_DESIGNATION_Y);
-	    }
-	}
+         // there are two parameters in linear fitting
+         FitParameter sFitParameter[2];
+         if( STATS_NO_ERROR == ocmath_linear_fit(vx, vy,
+         vy.GetSize(), sFitParameter) )
+         {
+             // add fitted X data to report table
+             string strName = "X" + (nRange+1);
+             string strLongName = "X";
+             rt.AddColumn(vx, strName, nSubID++, strLongName,
+             OKDATAOBJ_DESIGNATION_X);
+
+             // calculate fitted Y data
+             double dIntercept = sFitParameter[0].Value;
+             double dSlope = sFitParameter[1].Value;
+             vector vFitY;
+             vFitY = vx * dSlope + dIntercept;
+
+             // add fitted Y data to report table
+             strName = "Y" + (nRange+1);
+             string strRange;
+             strRange = drOne.GetDescription(GETLC_COL_LN_ONLY);
+             strLongName = "Fitted data on " + strRange;
+             rt.AddColumn(vFitY, strName, nSubID++, strLongName, OKDATAOBJ_DESIGNATION_Y);
+             rt.GenerateReport(wks, false, false);
+	         wks.AutoSize();
+        }
+	 }
 }
 
 void MathColumns::outputToWks(WorksheetPage wp, const FitParameter* psFitParameter)
