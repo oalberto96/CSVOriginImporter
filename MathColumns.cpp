@@ -98,14 +98,12 @@ void MathColumns::linearFit(Worksheet wks, int x, int y)
 
          // there are two parameters in linear fitting
          FitParameter sFitParameter[2];
-         if( STATS_NO_ERROR == ocmath_linear_fit(vx, vy,
-         vy.GetSize(), sFitParameter) )
+         if( STATS_NO_ERROR == ocmath_linear_fit(vx, vy, vy.GetSize(), sFitParameter) )
          {
              // add fitted X data to report table
              string strName = "X" + (nRange+1);
              string strLongName = "X";
-             rt.AddColumn(vx, strName, nSubID++, strLongName,
-             OKDATAOBJ_DESIGNATION_X);
+             rt.AddColumn(vx, strName, nSubID++, strLongName, OKDATAOBJ_DESIGNATION_X);
 
              // calculate fitted Y data
              double dIntercept = sFitParameter[0].Value;
@@ -119,7 +117,7 @@ void MathColumns::linearFit(Worksheet wks, int x, int y)
              strRange = drOne.GetDescription(GETLC_COL_LN_ONLY);
              strLongName = "Fitted data on " + strRange;
              rt.AddColumn(vFitY, strName, nSubID++, strLongName, OKDATAOBJ_DESIGNATION_Y);
-             rt.GenerateReport(wks, false, false);
+             wks.SetReportTree(rt);
 	         wks.AutoSize();
         }
 	 }
