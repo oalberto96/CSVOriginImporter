@@ -17,10 +17,12 @@ void MathColumns::linearFit(Worksheet wks, int x, int y)
     WorksheetPage wp = wks.GetPage();
 
     DataRange dr;
+    dr.Add(wks,0,"X");
+    dr.Add(wks,3,"Y");
     //dr.Add("X", wks, 0, x, -1, x); // 1st column for X data
     //dr.Add("Y", wks, 0, y, -1, y); // 2nd column for Y data
-    dr.Add("X", wks, 0, 0, -1, 0);  // x column
-    dr.Add("Y", wks, 0, 1, -1, 1);  // y column
+    //dr.Add("X", wks, 0, 0, -1, 0);  // x column
+    //dr.Add("Y", wks, 0, 3, -1, 3);  // y column
     vector vX;
     dr.GetData(&vX, 0);  // get data of x column to vector
     vector vY;
@@ -73,8 +75,8 @@ void MathColumns::linearFit(Worksheet wks, int x, int y)
     WorksheetPage wksPage = wks.GetPage();
 	int nLayer = wksPage.AddLayer();
 	Worksheet wksReportData = wksPage.Layers(nLayer);
-	rd.SetWorksheet(wks);
-    fitLinearReport(iy,rd,wks);
+	rd.SetWorksheet(wksReportData);
+    fitLinearReport(iy,rd,wksReportData);
 }
 
 
