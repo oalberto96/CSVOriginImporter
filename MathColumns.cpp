@@ -7,22 +7,25 @@ MathColumns::MathColumns()
 {
 
 }
-
+DataRange MathColumns::getDataRange(Worksheet wks, int x, int y)
+{
+    DataRange dr;
+    if(wks)
+    {
+        dr.Add(wks,x,"X");
+        dr.Add(wks,y,"Y");
+    }
+    return dr;
+}
 
 void MathColumns::linearFit(Worksheet wks, int x, int y)
 {
-        // Get XY data from worksheet window
     if(!wks)
-        return;  // need to activate a worksheet with data
+        return;
     WorksheetPage wp = wks.GetPage();
-
     DataRange dr;
     dr.Add(wks,0,"X");
     dr.Add(wks,3,"Y");
-    //dr.Add("X", wks, 0, x, -1, x); // 1st column for X data
-    //dr.Add("Y", wks, 0, y, -1, y); // 2nd column for Y data
-    //dr.Add("X", wks, 0, 0, -1, 0);  // x column
-    //dr.Add("Y", wks, 0, 3, -1, 3);  // y column
     vector vX;
     dr.GetData(&vX, 0);  // get data of x column to vector
     vector vY;
@@ -64,7 +67,6 @@ void MathColumns::linearFit(Worksheet wks, int x, int y)
         return;
     }
     WorksheetPage wksPg("Book1");
-
     //output_to_tree_view_wks(wksPg, stRegStats);
     outputToWks(wksPg, &psFitParameter);
 
@@ -121,7 +123,26 @@ void MathColumns::linearFit(Worksheet wks, int x, int y)
              rt.AddColumn(vFitY, strName, nSubID++, strLongName, OKDATAOBJ_DESIGNATION_Y);
              wks.SetReportTree(rt);
 	         wks.AutoSize();
+
+             //Plot inside the original one
+             GraphPage grPg("Graph1");
+             if (grPg)
+             {
+                 GraphLayer g2 = grPg.Layers(0);
+                 if (g2.IsValid() )
+                 {
+                     DataRange graphDataRange;
+                     graphDataRange = getDataRange(wks,0,1);
+                     g2.AddPlot(graphDataRange, IDM_PLOT_SCATTER);
+                     g2.Rescale();
+                 }
+             }
+             else
+             {
+                 out_str("Error al graficar");
+             }
         }
+
 	 }
 }
 

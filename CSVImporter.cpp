@@ -80,8 +80,6 @@ void CSVImporter::generateSample(Worksheet *wks,int user_row)
     o_plot.plot(&wks_sample,0,3);
     //o_plot.linearFit(wks_sample,0,3);
     column_operator.linearFit(wks_sample,0,3);
-
-
 }
 
 void CSVImporter::deleteColumns(Worksheet *wks)

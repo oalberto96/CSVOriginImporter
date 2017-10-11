@@ -16,6 +16,7 @@ class MathColumns
 {
 public:
     MathColumns();
+    DataRange getDataRange(Worksheet wks, int x, int y);
     columnDivide(Column result_col);
     columnLn(Column col);
     fitLinearReport(const XYRange& iy, ReportData& rd, Worksheet wks);
