@@ -20,12 +20,15 @@ bool CSVImporter::isValidPath(string str_path)
 		return false;
 }
 
-Worksheet CSVImporter::createWorsheet()
+Worksheet CSVImporter::createWorsheet(int user_row)
 {
     WorksheetPage wksPage;
     wksPage.Create("STAT", CREATE_VISIBLE );
+    wksPage.SetName("Muestra" + user_row);
     int index = wksPage.AddLayer("New Sheet");
     Worksheet wks = wksPage.Layers(index);
+    Worksheet tmp = wksPage.Layers(0);
+    tmp.Destroy();
     wks.Show = true;
     return wks;
 }
@@ -38,6 +41,8 @@ Worksheet CSVImporter::importSample(string str_path)
     wksPage.Create("STAT", CREATE_VISIBLE );
     int index = wksPage.AddLayer("New Sheet");
     Worksheet wks = wksPage.Layers(index);
+    Worksheet tmp = wksPage.Layers(0);
+    tmp.Destroy();
     if(AscImpReadFileStruct(str_path, &ascii_importer) == 0)
     {
         wks.ImportASCII(str_path, ascii_importer);
@@ -48,6 +53,7 @@ Worksheet CSVImporter::importSample(string str_path)
     {
         out_str("Error al cargar el archivo: importSample");
     }
+    wks.AutoSizeRow(RCLT_COMMENT,1);
     return wks;
 }
 
@@ -57,7 +63,7 @@ void CSVImporter::generateSample(Worksheet *wks,int user_row)
     MathColumns column_operator();
     OriginPlot o_plot();
     Worksheet wks_sample;
-    wks_sample = createWorsheet();
+    wks_sample = createWorsheet(user_row);
     wks_sample.AddCol("s", "s"); //Add column AA0
     wks_sample.AddCol("s", "s");// Add column LnAA0
     //Column Time
@@ -77,9 +83,13 @@ void CSVImporter::generateSample(Worksheet *wks,int user_row)
     column_operator.columnLn(col_LnAA0);
     col_LnAA0.SetName("LnAA0");
     //plot
-    o_plot.plot(&wks_sample,0,3);
-    //o_plot.linearFit(wks_sample,0,3);
-    column_operator.linearFit(wks_sample,0,3);
+    string graph_name = "GraficaMuestra" + user_row;
+    DataRange data_range;
+    data_range = column_operator.getDataRange(wks_sample,0,3);
+    o_plot.plot(data_range,graph_name,IDM_PLOT_SCATTER);
+    Worksheet wks_linearfit = column_operator.linearFit(wks_sample,0,3);
+    data_range = column_operator.getDataRange(wks_linearfit,0,1);
+    o_plot.plot(data_range,graph_name,IDM_PLOT_LINE);
 }
 
 void CSVImporter::deleteColumns(Worksheet *wks)

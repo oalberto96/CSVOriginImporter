@@ -14,7 +14,7 @@ public:
     void setColumnProperties(Worksheet *wks);
     void deleteColumns(Worksheet *wks);
     void generateSample(Worksheet *wks, int user_row);
-    Worksheet createWorsheet();
+    Worksheet createWorsheet(int user_row);
 };
 
 

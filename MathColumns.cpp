@@ -7,6 +7,7 @@ MathColumns::MathColumns()
 {
 
 }
+
 DataRange MathColumns::getDataRange(Worksheet wks, int x, int y)
 {
     DataRange dr;
@@ -18,10 +19,10 @@ DataRange MathColumns::getDataRange(Worksheet wks, int x, int y)
     return dr;
 }
 
-void MathColumns::linearFit(Worksheet wks, int x, int y)
+Worksheet MathColumns::linearFit(Worksheet wks, int x, int y)
 {
     if(!wks)
-        return;
+        return NULL;
     WorksheetPage wp = wks.GetPage();
     DataRange dr;
     dr.Add(wks,0,"X");
@@ -47,7 +48,7 @@ void MathColumns::linearFit(Worksheet wks, int x, int y)
     GETN_END_BRANCH(Fit)
     if( !GetNBox(trGUI) )
     {
-    	return; // clicked Cancel button
+    	return NULL; // clicked Cancel button
     }
     LROptions stLROptions;
     stLROptions = trGUI.Fit; // assign value from GUI tree to struct
@@ -64,11 +65,10 @@ void MathColumns::linearFit(Worksheet wks, int x, int y)
     if(nRet != STATS_NO_ERROR)
     {
         out_str("Error");
-        return;
+        return NULL;
     }
-    WorksheetPage wksPg("Book1");
     //output_to_tree_view_wks(wksPg, stRegStats);
-    outputToWks(wksPg, &psFitParameter);
+    outputToWks(wp, &psFitParameter);
 
     XYRange iy(dr);
 
@@ -79,6 +79,7 @@ void MathColumns::linearFit(Worksheet wks, int x, int y)
 	Worksheet wksReportData = wksPage.Layers(nLayer);
 	rd.SetWorksheet(wksReportData);
     fitLinearReport(iy,rd,wksReportData);
+    return wksReportData;
 }
 
 
@@ -124,23 +125,6 @@ void MathColumns::linearFit(Worksheet wks, int x, int y)
              wks.SetReportTree(rt);
 	         wks.AutoSize();
 
-             //Plot inside the original one
-             GraphPage grPg("Graph1");
-             if (grPg)
-             {
-                 GraphLayer g2 = grPg.Layers(0);
-                 if (g2.IsValid() )
-                 {
-                     DataRange graphDataRange;
-                     graphDataRange = getDataRange(wks,0,1);
-                     g2.AddPlot(graphDataRange, IDM_PLOT_SCATTER);
-                     g2.Rescale();
-                 }
-             }
-             else
-             {
-                 out_str("Error al graficar");
-             }
         }
 
 	 }

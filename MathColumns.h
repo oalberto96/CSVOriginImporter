@@ -19,8 +19,9 @@ public:
     DataRange getDataRange(Worksheet wks, int x, int y);
     columnDivide(Column result_col);
     columnLn(Column col);
+    Worksheet linearFit(Worksheet wks, int x, int y);
+
     fitLinearReport(const XYRange& iy, ReportData& rd, Worksheet wks);
-    linearFit(Worksheet wks, int x, int y);
     outputToWks(WorksheetPage wp, const FitParameter* psFitParameter);
     output_to_tree_view_wks(WorksheetPage& wp, const RegStats& stRegStats);
 
