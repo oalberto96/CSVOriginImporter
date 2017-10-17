@@ -37,24 +37,26 @@ Worksheet CSVImporter::importSample(string str_path)
 {
 
     ASCIMP ascii_importer;
-    WorksheetPage wksPage;
-    wksPage.Create("STAT", CREATE_VISIBLE );
-    int index = wksPage.AddLayer("New Sheet");
-    Worksheet wks = wksPage.Layers(index);
-    Worksheet tmp = wksPage.Layers(0);
-    tmp.Destroy();
     if(AscImpReadFileStruct(str_path, &ascii_importer) == 0)
     {
+        WorksheetPage wksPage;
+        wksPage.Create("STAT", CREATE_VISIBLE );
+        int index = wksPage.AddLayer("New Sheet");
+        Worksheet wks = wksPage.Layers(index);
+        Worksheet tmp = wksPage.Layers(0);
+        tmp.Destroy();
         wks.ImportASCII(str_path, ascii_importer);
         wks.Show = true;
         out_str("Archivo importado con exito");
+        wks.AutoSizeRow(RCLT_COMMENT,1);
+        return wks;
     }
     else
     {
         out_str("Error al cargar el archivo: importSample");
+        return NULL;
     }
-    wks.AutoSizeRow(RCLT_COMMENT,1);
-    return wks;
+
 }
 
 void CSVImporter::generateSample(Worksheet *wks,int user_row)
@@ -90,6 +92,17 @@ void CSVImporter::generateSample(Worksheet *wks,int user_row)
     Worksheet wks_linearfit = column_operator.linearFit(wks_sample,0,3);
     data_range = column_operator.getDataRange(wks_linearfit,0,1);
     o_plot.plot(data_range,graph_name,IDM_PLOT_LINE);
+}
+
+void CSVImporter::cleanColumns(Worksheet *wks)
+{
+    Column col(*wks, 8);
+    int n_rows = col.GetNumRows(), n_r1, n_r2;
+    wks->GetRange(n_r1, n_r2);
+    for (int i = n_rows; i < n_r2; i++)
+    {
+        wks->DeleteRow(n_rows);
+    }
 }
 
 void CSVImporter::deleteColumns(Worksheet *wks)

@@ -15,6 +15,8 @@ public:
     void deleteColumns(Worksheet *wks);
     void generateSample(Worksheet *wks, int user_row);
     Worksheet createWorsheet(int user_row);
+    void cleanColumns(Worksheet *wks);
+
 };
 
 

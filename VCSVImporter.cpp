@@ -26,15 +26,45 @@
 // Start your functions here.
 main()
 {
+    bool valid_input = true;
     string strFile = GetOpenBox("*.csv");
-    CSVImporter csv_importer();
-    Worksheet wks;
-    wks = csv_importer.importSample(strFile);
-    wks.AutoSize(AS_SELECTION);
-	csv_importer.deleteColumns(&wks);
-    csv_importer.setColumnProperties(&wks);
-    string str_row = InputBox("Ingrese el numero de columna a importar", "");
-    int row_number =  atoi(str_row);
-    csv_importer.generateSample(&wks,row_number);
+    if (strFile != "")
+    {
+        CSVImporter csv_importer();
+        Worksheet wks;
+        wks = csv_importer.importSample(strFile);
+        if (wks)
+        {
+            wks.AutoSize(AS_SELECTION);
+            csv_importer.deleteColumns(&wks);
+            csv_importer.setColumnProperties(&wks);
+            csv_importer.cleanColumns(&wks);
+            while (valid_input)
+            {
+                string str_row = InputBox("Ingrese el numero de columna a importar", "");
+                if (str_row == "NANUM")
+                {
+                    valid_input = false;
+                    continue;
+                }
+                int row_number =  atoi(str_row);
+                if (row_number>0)
+                {
+                    csv_importer.generateSample(&wks,row_number);
+                    valid_input = false;
+                }
+                else
+                {
+                    out_str("Ingrese un numero valido");
+                }
+            }
+
+        }
+    }
+    else
+    {
+        out_str("Accion cancelada por el usuario");
+    }
+
 
 }
