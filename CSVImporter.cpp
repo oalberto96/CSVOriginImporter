@@ -96,11 +96,10 @@ void CSVImporter::generateSample(Worksheet *wks,int user_row)
 
 void CSVImporter::cleanColumns(Worksheet *wks)
 {
-    Column col(*wks, 8);
-    int n_rows = col.GetNumRows(), n_r1, n_r2;
-    wks->GetRange(n_r1, n_r2);
-    for (int i = n_rows; i < n_r2; i++)
-    {
+    Column col1(*wks, 0), colx(*wks, 8);
+    int nblank_rows = col1.GetNumRows();
+    int n_rows = colx.GetUpperIndex()+1;
+    for (int i = n_rows; i < nblank_rows; i++) {
         wks->DeleteRow(n_rows);
     }
 }
