@@ -6,6 +6,7 @@
 #include "WorksheetConversor.h"
 #include "MathColumns.h"
 #include "OriginPlot.h"
+#include "CSVParser.h"
 
 CSVImporter::CSVImporter()
 {
@@ -35,28 +36,30 @@ Worksheet CSVImporter::createWorsheet(int user_row)
 
 Worksheet CSVImporter::importSample(string str_path)
 {
-
     ASCIMP ascii_importer;
-    if(AscImpReadFileStruct(str_path, &ascii_importer) == 0)
+    if(AscImpReadFileStruct(str_path, &ascii_importer) != 0)
     {
-        WorksheetPage wksPage;
-        wksPage.Create("STAT", CREATE_VISIBLE );
-        int index = wksPage.AddLayer("New Sheet");
-        Worksheet wks = wksPage.Layers(index);
-        Worksheet tmp = wksPage.Layers(0);
-        tmp.Destroy();
-        wks.ImportASCII(str_path, ascii_importer);
-        wks.Show = true;
-        out_str("Archivo importado con exito");
-        wks.AutoSizeRow(RCLT_COMMENT,1);
-        return wks;
+        CSVParser csv_parser();
+        str_path = csv_parser.createCopy(str_path);
+        out_str("Error al cargar el archivo, creando archivo temporal...");
     }
-    else
+    out_str(str_path);
+    WorksheetPage wksPage;
+    wksPage.Create("STAT", CREATE_VISIBLE );
+    int index = wksPage.AddLayer("New Sheet");
+    Worksheet wks = wksPage.Layers(index);
+    Worksheet tmp = wksPage.Layers(0);
+    tmp.Destroy();
+    if (wks.ImportASCII(str_path, ascii_importer) != 0)
     {
-        out_str("Error al cargar el archivo: importSample");
+        wksPage.Destroy();
+        out_str("Error al cargar el archivo");
         return NULL;
     }
-
+    wks.Show = true;
+    out_str("Archivo importado con exito");
+    wks.AutoSizeRow(RCLT_COMMENT,1);
+    return wks;
 }
 
 void CSVImporter::generateSample(Worksheet *wks,int user_row)
@@ -88,7 +91,7 @@ void CSVImporter::generateSample(Worksheet *wks,int user_row)
     string graph_name = "GraficaMuestra" + user_row;
     DataRange data_range;
     data_range = column_operator.getDataRange(wks_sample,0,3);
-    o_plot.plot(data_range,graph_name,IDM_PLOT_SCATTER);
+    o_plot.plot(data_range,graph_name,IDM_PLOT_LINESYMB);
     Worksheet wks_linearfit = column_operator.linearFit(wks_sample,0,3);
     data_range = column_operator.getDataRange(wks_linearfit,0,1);
     o_plot.plot(data_range,graph_name,IDM_PLOT_LINE);

@@ -12,12 +12,15 @@ CSVParser::CSVParser()
 string CSVParser::createCopy(string str_path)
 {
     string temp_str_patch = str_path;
-    temp_str_patch.Replace(".csv",".temp");
-    if(!CopyFile(str_path, temp_str_patch))
-    {
-        return NULL;
-    }
-    return temp_str_patch;
+    string temp_content;
+    temp_str_patch.Replace(".csv","temporal.csv");
+    temp_content = loadTextFile(str_path);
+    temp_content = replaceComas(temp_content);
+    out_str(temp_str_patch);
+    stdioFile ff(temp_str_patch, file::modeCreate | file::modeWrite);
+    ff.WriteString(temp_content);
+    str_path = temp_str_patch;
+    return str_path;
 }
 
 string CSVParser::loadTextFile(string str_path)

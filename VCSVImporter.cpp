@@ -28,9 +28,9 @@ main()
 {
     bool valid_input = true;
     string strFile = GetOpenBox("*.csv");
-    if (strFile != "")
+    CSVImporter csv_importer();
+    if (strFile != "" && csv_importer.isValidPath(strFile))
     {
-        CSVImporter csv_importer();
         Worksheet wks;
         wks = csv_importer.importSample(strFile);
         if (wks)
