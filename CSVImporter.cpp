@@ -18,6 +18,16 @@ void CSVImporter::setBaseline(bool has_baseline)
     this->baseline = has_baseline;
 }
 
+bool CSVImporter::getBaseline()
+{
+    return this->baseline
+}
+
+void CSVImporter::deleteBaseline(Worksheet *wks)
+{
+    wks->DeleteCol(1);
+}
+
 bool CSVImporter::isValidPath(string str_path)
 {
     if (str_path.IsFile() && str_path.Match("*.csv"))
@@ -45,7 +55,6 @@ Worksheet CSVImporter::importSample(string str_path)
     CSVParser csv_parser();
     if(AscImpReadFileStruct(str_path, &ascii_importer) != 0)
     {
-
         str_path = csv_parser.createCopy(str_path);
         out_str("Error al cargar el archivo, creando archivo temporal...");
     }

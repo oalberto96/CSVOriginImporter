@@ -37,6 +37,9 @@ main()
         {
             wks.AutoSize(AS_SELECTION);
             csv_importer.deleteColumns(&wks);
+            if (csv_importer.getBaseline()) {
+                csv_importer.deleteBaseline(&wks);
+            }
             csv_importer.setColumnProperties(&wks);
             csv_importer.cleanColumns(&wks);
             while (valid_input)

@@ -12,6 +12,8 @@ private:
 public:
     CSVImporter();
     void setBaseline(bool has_baseline);
+    bool getBaseline();
+    void deleteBaseline(Worksheet *wks);
     Worksheet importSample(string str_path);
     bool isValidPath(string str_path);
     void setColumnProperties(Worksheet *wks);
