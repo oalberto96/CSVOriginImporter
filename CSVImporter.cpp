@@ -10,7 +10,12 @@
 
 CSVImporter::CSVImporter()
 {
+    this->baseline = false;
+}
 
+void CSVImporter::setBaseline(bool has_baseline)
+{
+    this->baseline = has_baseline;
 }
 
 bool CSVImporter::isValidPath(string str_path)
@@ -37,12 +42,14 @@ Worksheet CSVImporter::createWorsheet(int user_row)
 Worksheet CSVImporter::importSample(string str_path)
 {
     ASCIMP ascii_importer;
+    CSVParser csv_parser();
     if(AscImpReadFileStruct(str_path, &ascii_importer) != 0)
     {
-        CSVParser csv_parser();
+
         str_path = csv_parser.createCopy(str_path);
         out_str("Error al cargar el archivo, creando archivo temporal...");
     }
+    setBaseline(csv_parser.findBaseline(str_path));
     out_str(str_path);
     WorksheetPage wksPage;
     wksPage.Create("STAT", CREATE_VISIBLE );

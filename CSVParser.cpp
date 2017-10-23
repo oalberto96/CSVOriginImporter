@@ -9,6 +9,20 @@ CSVParser::CSVParser()
 
 }
 
+bool CSVParser::findBaseline(string str_path)
+{
+    bool has_baseline = false;
+    string temp_content;
+    temp_content = loadTextFile(str_path);
+    temp_content = temp_content.Left(400);
+    int result = temp_content.Find("Baseline",0,FALSE);
+    if(result>=0)
+    {
+        has_baseline = true;
+    }
+    return has_baseline;
+}
+
 string CSVParser::createCopy(string str_path)
 {
     string temp_str_patch = str_path;

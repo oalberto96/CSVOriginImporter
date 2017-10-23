@@ -7,8 +7,11 @@
 #include <origin.h>
 class CSVImporter
 {
+private:
+    bool baseline;
 public:
     CSVImporter();
+    void setBaseline(bool has_baseline);
     Worksheet importSample(string str_path);
     bool isValidPath(string str_path);
     void setColumnProperties(Worksheet *wks);

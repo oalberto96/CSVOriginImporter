@@ -10,6 +10,7 @@ class CSVParser
 {
 public:
     CSVParser();
+    bool findBaseline(string str_path);
     string createCopy(string str_path);
     string loadTextFile(string str_path);
     string replaceComas(string str_path_temp);
