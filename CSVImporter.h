@@ -11,6 +11,7 @@ private:
     bool baseline;
 public:
     CSVImporter();
+    int findWaveLength(Worksheet *wks,int user_input);
     void setBaseline(bool has_baseline);
     bool getBaseline();
     void deleteBaseline(Worksheet *wks);

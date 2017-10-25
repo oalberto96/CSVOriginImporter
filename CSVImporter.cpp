@@ -78,8 +78,34 @@ Worksheet CSVImporter::importSample(string str_path)
     return wks;
 }
 
+int CSVImporter::findWaveLength(Worksheet *wks,int user_input)
+{
+    int user_row = -1;
+    int i, j = 0;
+    Column col = wks->Columns(0);
+    vectorbase &data_column = col.GetDataObject();
+    for (i = 0; i < data_column.GetSize(); i++)
+    {
+        if(data_column[i] < user_input)
+        {
+            user_row = i+1;
+            break;
+        }
+    }
+    if (user_row > data_column[0])
+    {
+        user_row = 1;
+    }
+    else if (user_row < 0)
+    {
+        user_row = data_column.GetSize();
+    }
+    return user_row;
+}
+
 void CSVImporter::generateSample(Worksheet *wks,int user_row)
 {
+
     WorksheetConversor wks_conversor();
     MathColumns column_operator();
     OriginPlot o_plot();

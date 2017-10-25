@@ -27,6 +27,7 @@
 main()
 {
     bool valid_input = true;
+    int row_number;
     string strFile = GetOpenBox("*.csv");
     CSVImporter csv_importer();
     if (strFile != "" && csv_importer.isValidPath(strFile))
@@ -44,22 +45,16 @@ main()
             csv_importer.cleanColumns(&wks);
             while (valid_input)
             {
-                string str_row = InputBox("Ingrese el numero de columna a importar", "");
+                string str_row = InputBox("Ingrese valor de longitud de onda", "");
                 if (str_row == "NANUM")
                 {
                     valid_input = false;
                     continue;
                 }
-                int row_number =  atoi(str_row);
-                if (row_number>0)
-                {
-                    csv_importer.generateSample(&wks,row_number);
-                    valid_input = false;
-                }
-                else
-                {
-                    out_str("Ingrese un numero valido");
-                }
+                int wl_input_user =  atoi(str_row);
+                row_number = csv_importer.findWaveLength(&wks,wl_input_user);
+                csv_importer.generateSample(&wks,row_number);
+                valid_input = false;
             }
 
         }
