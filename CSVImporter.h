@@ -17,9 +17,9 @@ public:
     void deleteBaseline(Worksheet *wks);
     Worksheet importSample(string str_path);
     bool isValidPath(string str_path);
-    void setColumnProperties(Worksheet *wks);
+    void setColumnProperties(Worksheet *wks, int time_interval);
     void deleteColumns(Worksheet *wks);
-    void generateSample(Worksheet *wks, int user_row);
+    void generateSample(Worksheet *wks, int user_row, int time_interval);
     Worksheet createWorsheet(int user_row);
     void cleanColumns(Worksheet *wks);
 

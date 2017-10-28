@@ -41,11 +41,13 @@ main()
             if (csv_importer.getBaseline()) {
                 csv_importer.deleteBaseline(&wks);
             }
-            csv_importer.setColumnProperties(&wks);
+            string str_row= InputBox("Ingrese intervalo de tiempo en minutos", "");
+            int time_interval = atoi(str_row);
+            csv_importer.setColumnProperties(&wks, time_interval);
             csv_importer.cleanColumns(&wks);
             while (valid_input)
             {
-                string str_row = InputBox("Ingrese valor de longitud de onda", "");
+                str_row = InputBox("Ingrese valor de longitud de onda", "");
                 if (str_row == "NANUM")
                 {
                     valid_input = false;
@@ -53,7 +55,8 @@ main()
                 }
                 int wl_input_user =  atoi(str_row);
                 row_number = csv_importer.findWaveLength(&wks,wl_input_user);
-                csv_importer.generateSample(&wks,row_number);
+
+                csv_importer.generateSample(&wks, row_number, time_interval);
                 valid_input = false;
             }
 

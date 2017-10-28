@@ -10,14 +10,14 @@ WorksheetConversor::WorksheetConversor()
 
 }
 
-void WorksheetConversor::generateTimeColumn(Column col)
+void WorksheetConversor::generateTimeColumn(Column col, int time_interval)
 {
-    int limit = 13, range = 5, counter = 0;
+    int limit = 13, counter = 0;
     vector<double>& vec = col.GetDataObject();
     for(int i; i < limit; i++ )
     {
         vec.Add(counter);
-        counter += range;
+        counter += time_interval;
     }
 }
 

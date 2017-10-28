@@ -103,7 +103,7 @@ int CSVImporter::findWaveLength(Worksheet *wks,int user_input)
     return user_row;
 }
 
-void CSVImporter::generateSample(Worksheet *wks,int user_row)
+void CSVImporter::generateSample(Worksheet *wks, int user_row, int time_interval)
 {
 
     WorksheetConversor wks_conversor();
@@ -115,7 +115,7 @@ void CSVImporter::generateSample(Worksheet *wks,int user_row)
     wks_sample.AddCol("s", "s");// Add column LnAA0
     //Column Time
     Column col_time(wks_sample,0);
-    wks_conversor.generateTimeColumn(col_time);
+    wks_conversor.generateTimeColumn(col_time, time_interval);
     col_time.SetName("Time");
     //Column A(Y)
     Column col(wks_sample, 1);
@@ -159,7 +159,7 @@ void CSVImporter::deleteColumns(Worksheet *wks)
     }
 }
 
-void CSVImporter::setColumnProperties(Worksheet *wks)
+void CSVImporter::setColumnProperties(Worksheet *wks, int time_interval)
 {
     int i = 0;
     string name = "mins", aux_name;
@@ -169,7 +169,7 @@ void CSVImporter::setColumnProperties(Worksheet *wks)
         if (column_counter != 0)
         {
             aux_name = "" + i + name ;
-            i +=5;
+            i += time_interval;
             column.SetName(aux_name);
             column.SetUnits("Abs");
         }
