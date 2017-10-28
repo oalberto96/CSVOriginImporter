@@ -36,7 +36,7 @@ void OriginPlot::plot(Worksheet *wks_sample, int x, int y, string graph_name)
     dr.Add(*wks_sample, y, "Y"); // 2nd column for Y data
     // Create a graph window
     GraphPage gp;
-    gp.Create("Origin");
+    gp.Create("LnAA0");
     gp.SetName(graph_name);
     GraphLayer gl = gp.Layers(); // Get active layer
     int nPlotIndex = gl.AddPlot(dr, IDM_PLOT_LINESYMB);// Returns plot index (offset is 0), else return -1 for error
@@ -50,7 +50,7 @@ void OriginPlot::plot(DataRange data_range, string graph_name,int nplotid)
 {
     GraphPage gp(graph_name);
     if (!gp) {
-        gp.Create("Origin");
+        gp.Create("LnAA0");
         gp.SetName(graph_name);
     }
     GraphLayer gl = gp.Layers(); // Get active layer
