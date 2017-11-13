@@ -111,8 +111,8 @@ void CSVImporter::generateSample(Worksheet *wks, int user_row, int time_interval
     OriginPlot o_plot();
     Worksheet wks_sample;
     wks_sample = createWorsheet(user_row);
-    wks_sample.AddCol("s", "s"); //Add column AA0
-    wks_sample.AddCol("s", "s");// Add column LnAA0
+    wks_sample.AddCol(); //Add column AA0
+    wks_sample.AddCol();// Add column LnAA0
     //Column Time
     Column col_time(wks_sample,0);
     wks_conversor.generateTimeColumn(col_time, time_interval);
