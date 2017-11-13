@@ -49,14 +49,10 @@ string CSVParser::replaceComas(string str_content_file)
     String temp_content;
     temp_content = str_content_file.Left(400);
     int result = temp_content.Find(";",0,FALSE);
+    str_content_file.Replace(",",".");
     if(result>=0)
     {
-        str_content_file.Replace(";"," ");
+        str_content_file.Replace(";",",");
     }
-    else
-    {
-        str_content_file.Replace(","," ");
-    }
-    str_content_file.Replace(".",",");
     return str_content_file;
 }
