@@ -23,13 +23,20 @@ bool CSVParser::findBaseline(string str_path)
     return has_baseline;
 }
 
-string CSVParser::createCopy(string str_path)
+string CSVParser::createCopy(string str_path, int mode)
 {
     string temp_str_patch = str_path;
     string temp_content;
     temp_str_patch.Replace(".csv","temporal.csv");
     temp_content = loadTextFile(str_path);
-    temp_content = replaceComas(temp_content);
+    switch (mode) {
+        case COMMA:
+            temp_content = replaceComas(temp_content,COMMA);
+            break;
+        case SEMICOLON:
+            temp_content = replaceComas(temp_content,SEMICOLON);
+            break;
+    }
     out_str(temp_str_patch);
     stdioFile ff(temp_str_patch, file::modeCreate | file::modeWrite);
     ff.WriteString(temp_content);
@@ -44,15 +51,17 @@ string CSVParser::loadTextFile(string str_path)
     return content_file;
 }
 
-string CSVParser::replaceComas(string str_content_file)
+string CSVParser::replaceComas(string str_content_file, int mode)
 {
-    String temp_content;
-    temp_content = str_content_file.Left(400);
-    int result = temp_content.Find(";",0,FALSE);
-    str_content_file.Replace(",",".");
-    if(result>=0)
-    {
-        str_content_file.Replace(";",",");
+    switch (mode) {
+        case COMMA:
+            str_content_file.Replace(",",".");
+            str_content_file.Replace(";",",");
+            break;
+        case SEMICOLON:
+            str_content_file.Replace(",",";");
+            str_content_file.Replace(".",",");
+            break;
     }
     return str_content_file;
 }

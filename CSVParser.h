@@ -4,6 +4,8 @@
 
 #ifndef USER_FILES_CSVPARSER_H
 #define USER_FILES_CSVPARSER_H
+#define COMMA 1
+#define SEMICOLON 2
 #include <origin.h>
 
 class CSVParser
@@ -11,9 +13,9 @@ class CSVParser
 public:
     CSVParser();
     bool findBaseline(string str_path);
-    string createCopy(string str_path);
+    string createCopy(string str_path,int mode);
     string loadTextFile(string str_path);
-    string replaceComas(string str_path_temp);
+    string replaceComas(string str_path_temp, int mode);
 };
 
 
