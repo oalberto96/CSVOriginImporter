@@ -1,0 +1,8 @@
+run.LoadOC(OriginLab\CSVOriginImporter\CSVImporter.cpp, 16) != 0);
+run.LoadOC(OriginLab\CSVOriginImporter\CSVParser.cpp, 16) != 0);
+run.LoadOC(OriginLab\CSVOriginImporter\MathColumns.cpp, 16) != 0);
+run.LoadOC(OriginLab\CSVOriginImporter\OriginPlot.cpp, 16) != 0);
+run.LoadOC(OriginLab\CSVOriginImporter\VCSVImporter.cpp, 16) != 0);
+run.LoadOC(OriginLab\CSVOriginImporter\WorksheetConversor.cpp, 16) != 0);
+
+main;
