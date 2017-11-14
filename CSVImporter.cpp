@@ -55,15 +55,15 @@ Worksheet CSVImporter::importSample(string str_path)
     CSVParser csv_parser();
     if(AscImpReadFileStruct(str_path, &ascii_importer) != 0)
     {
+    	string str_temp = str_path;
         out_str("Error al importar el archivo, creando archivo temporal ,...");
 
-        str_path = csv_parser.createCopy(str_path,COMMA);
+        str_path = csv_parser.createCopy(str_temp,COMMA);
         if(AscImpReadFileStruct(str_path, &ascii_importer) != 0)
         {
-            str_path = csv_parser.createCopy(str_path,SEMICOLON);
+            str_path = csv_parser.createCopy(str_temp,SEMICOLON);
             if(AscImpReadFileStruct(str_path, &ascii_importer) != 0)
             {
-                str_path = csv_parser.createCopy(str_path,COMMA);
                 out_str("Error al cargar el archivo, creando archivo temporal ;...");
             }
         }
