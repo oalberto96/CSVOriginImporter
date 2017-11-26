@@ -45,6 +45,7 @@ main()
             int time_interval = atoi(str_row);
             csv_importer.setColumnProperties(&wks, time_interval);
             csv_importer.cleanColumns(&wks);
+            csv_importer.plotWorksheet(wks);
             while (valid_input)
             {
                 str_row = InputBox("Ingrese valor de longitud de onda", "");

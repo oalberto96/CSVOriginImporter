@@ -11,6 +11,7 @@ class OriginPlot
 {
 public:
     OriginPlot();
+    void plot_worksheet(Worksheet wks, string graph_name);
     void plot(Worksheet *wks_sample, int x, int y, string graph_name);
     void plot(DataRange data_range, string graph_name,int nplotid);
     void linearFit(Worksheet wks, int x, int y);

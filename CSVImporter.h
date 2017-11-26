@@ -19,6 +19,7 @@ public:
     bool isValidPath(string str_path);
     void setColumnProperties(Worksheet *wks, int time_interval);
     void deleteColumns(Worksheet *wks);
+    void plotWorksheet(Worksheet wks);
     void generateSample(Worksheet *wks, int user_row, int time_interval);
     Worksheet createWorsheet(int user_row);
     void cleanColumns(Worksheet *wks);

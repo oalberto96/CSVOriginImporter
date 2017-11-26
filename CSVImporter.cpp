@@ -113,6 +113,13 @@ int CSVImporter::findWaveLength(Worksheet *wks,int user_input)
     return user_row;
 }
 
+void CSVImporter::plotWorksheet(Worksheet wks)
+{
+    OriginPlot o_plot();
+    o_plot.plot_worksheet(wks, "Todos");
+
+}
+
 void CSVImporter::generateSample(Worksheet *wks, int user_row, int time_interval)
 {
 

@@ -9,24 +9,26 @@ OriginPlot::OriginPlot()
 
 }
 
-/*void OriginPlot::linearFitPlot(){
-    GraphPage grPg("Graph1");
-    if (grPg)
+void OriginPlot::plot_worksheet(Worksheet wks, string graph_name)
+{
+    DataRange dr;
+    dr.Add(wks, 0, "X");
+    for (int i = 1; i < wks.GetNumCols(); i++)
     {
-        GraphLayer g2 = grPg.Layers(0);
-        if (g2.IsValid() )
-        {
-            DataRange graphDataRange;
-            graphDataRange = getDataRange(wks,0,1);
-            g2.AddPlot(graphDataRange, IDM_PLOT_LINE);
-            g2.Rescale();
-        }
+        dr.Add(wks,i,"Y");
     }
-    else
+    GraphPage gp;
+    gp.Create("Absorbance");
+    gp.SetName(graph_name);
+    GraphLayer gl = gp.Layers();
+    int plot_index = gl.AddPlot(dr, IDM_PLOT_LINE);
+    if( plot_index >= 0 )
     {
-        out_str("Error al graficar");
+        gl.Rescale();
     }
-}*/
+
+
+}
 
 void OriginPlot::plot(Worksheet *wks_sample, int x, int y, string graph_name)
 {
