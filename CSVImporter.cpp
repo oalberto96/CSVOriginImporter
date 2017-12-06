@@ -158,7 +158,7 @@ void CSVImporter::generateSample(Worksheet *wks, int user_row, int time_interval
 
 void CSVImporter::cleanColumns(Worksheet *wks)
 {
-    Column col1(*wks, 0), colx(*wks, 8);
+    Column col1(*wks, 0), colx(*wks, 3);
     int nblank_rows = col1.GetNumRows();
     int n_rows = colx.GetUpperIndex()+1;
     for (int i = n_rows; i < nblank_rows; i++) {
