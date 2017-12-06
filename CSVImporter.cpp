@@ -132,7 +132,7 @@ void CSVImporter::generateSample(Worksheet *wks, int user_row, int time_interval
     wks_sample.AddCol();// Add column LnAA0
     //Column Time
     Column col_time(wks_sample,0);
-    wks_conversor.generateTimeColumn(col_time, time_interval);
+    wks_conversor.generateTimeColumn(col_time, time_interval, wks->GetNumCols());
     col_time.SetName("Time");
     //Column A(Y)
     Column col(wks_sample, 1);

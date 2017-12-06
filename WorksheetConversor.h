@@ -11,7 +11,7 @@ class WorksheetConversor
 public:
     WorksheetConversor();
     void RowtoColumn(Worksheet* wks,Column col,int rowIndex);
-    void generateTimeColumn(Column col, int time_interval);
+    void generateTimeColumn(Column col, int time_interval, int columns);
 };
 
 

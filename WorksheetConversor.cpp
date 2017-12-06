@@ -10,11 +10,11 @@ WorksheetConversor::WorksheetConversor()
 
 }
 
-void WorksheetConversor::generateTimeColumn(Column col, int time_interval)
+void WorksheetConversor::generateTimeColumn(Column col, int time_interval, int columns)
 {
-    int limit = 13, counter = 0;
+    int counter = 0;
     vector<double>& vec = col.GetDataObject();
-    for(int i; i < limit; i++ )
+    for(int i; i < columns-1; i++ )
     {
         vec.Add(counter);
         counter += time_interval;
@@ -33,6 +33,6 @@ void WorksheetConversor::RowtoColumn(Worksheet* wks, Column col, int rowIndex)
             continue;
         }
         vectorbase &column_data = column.GetDataObject();
-        vec.Add(column_data[rowIndex - 1]);
+        vec.Add(column_data[rowIndex]);
     }
 }
