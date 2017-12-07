@@ -10,6 +10,7 @@
 
 CSVImporter::CSVImporter()
 {
+    this->new_format = false;
     this->baseline = false;
 }
 
@@ -21,6 +22,16 @@ void CSVImporter::setBaseline(bool has_baseline)
 bool CSVImporter::getBaseline()
 {
     return this->baseline
+}
+
+void CSVImporter::setNewFormat(bool has_new_format)
+{
+    this->new_format = has_new_format;
+}
+
+bool CSVImporter::hasNewFormat()
+{
+    return this->new_format
 }
 
 void CSVImporter::deleteBaseline(Worksheet *wks)
@@ -53,15 +64,17 @@ Worksheet CSVImporter::importSample(string str_path)
 {
     ASCIMP ascii_importer;
     CSVParser csv_parser();
+    bool has_new_format = false;
     if(AscImpReadFileStruct(str_path, &ascii_importer) != 0)
     {
     	string str_temp = str_path;
         out_str("Error al importar el archivo, creando archivo temporal ,...");
-
-        str_path = csv_parser.createCopy(str_temp,COMMA);
+        setNewFormat(csv_parser.findNewFormat(str_path));
+        has_new_format = hasNewFormat();
+        str_path = csv_parser.createCopy(str_temp,COMMA,has_new_format);
         if(AscImpReadFileStruct(str_path, &ascii_importer) != 0)
         {
-            str_path = csv_parser.createCopy(str_temp,SEMICOLON);
+            str_path = csv_parser.createCopy(str_temp,SEMICOLON,has_new_format);
             if(AscImpReadFileStruct(str_path, &ascii_importer) != 0)
             {
                 out_str("Error al cargar el archivo, creando archivo temporal ;...");

@@ -9,8 +9,11 @@ class CSVImporter
 {
 private:
     bool baseline;
+    bool new_format;
 public:
     CSVImporter();
+    void setNewFormat(bool has_new_format);
+    bool hasNewFormat();
     int findWaveLength(Worksheet *wks,int user_input);
     void setBaseline(bool has_baseline);
     bool getBaseline();

@@ -12,8 +12,9 @@ class CSVParser
 {
 public:
     CSVParser();
+    bool findNewFormat(string str_path);
     bool findBaseline(string str_path);
-    string createCopy(string str_path,int mode);
+    string createCopy(string str_path,int mode, bool has_new_format);
     string loadTextFile(string str_path);
     string replaceComas(string str_path_temp, int mode);
 };
