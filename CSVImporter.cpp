@@ -201,6 +201,7 @@ void CSVImporter::setColumnProperties(Worksheet *wks, int time_interval)
             aux_name = "" + i + name ;
             i += time_interval;
             column.SetName(aux_name);
+            column.SetLongName("");
             column.SetUnits("Abs");
         }
         else
