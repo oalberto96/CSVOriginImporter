@@ -33,7 +33,7 @@ string CSVImporter::extractProjectName(string project_path)
     aux = project_path.Left(index);
     index = aux.ReverseFind('\\');
     aux = project_path.Right(index);
-    out_str("" + aux);
+    out_str("Hi!" + aux);
     return aux;
 }
 
@@ -89,6 +89,8 @@ Worksheet CSVImporter::importSample(string str_path)
     CSVParser csv_parser();
     bool has_new_format = false;
     extractProjectName(str_path);
+    setNewFormat(csv_parser.findNewFormat(str_path));
+
     if(AscImpReadFileStruct(str_path, &ascii_importer) != 0)
     {
     	string str_temp = str_path;
@@ -103,8 +105,17 @@ Worksheet CSVImporter::importSample(string str_path)
             {
                 out_str("Error al cargar el archivo, creando archivo temporal ;...");
             }
+            else
+            {
+                setNewFormat(false);
+            }
+        }
+        else
+        {
+            setNewFormat(false);
         }
     }
+
     setBaseline(csv_parser.findBaseline(str_path));
     out_str(str_path);
     WorksheetPage wksPage;
@@ -118,6 +129,12 @@ Worksheet CSVImporter::importSample(string str_path)
         wksPage.Destroy();
         out_str("Error al cargar el archivo");
         return NULL;
+    }
+    if (hasNewFormat())
+    {
+         wks.DeleteRow(0);
+         wks.DeleteRow(0);
+         out_str("Borrado exitoso");
     }
     wks.Show = true;
     out_str("Archivo importado con exito");
