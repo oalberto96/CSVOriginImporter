@@ -12,6 +12,29 @@ CSVImporter::CSVImporter()
 {
     this->new_format = false;
     this->baseline = false;
+    this->project_name = "";
+}
+
+void CSVImporter::setProjectName(string project_name)
+{
+    this->project_name = project_name;
+}
+
+string CSVImporter::getProjectName()
+{
+    return this->baseline
+}
+
+string CSVImporter::extractProjectName(string project_path)
+{
+    string aux;
+    int index;
+    index = project_path.Find(".csv");
+    aux = project_path.Left(index);
+    index = aux.ReverseFind('\\');
+    aux = project_path.Right(index);
+    out_str("" + aux);
+    return aux;
 }
 
 void CSVImporter::setBaseline(bool has_baseline)
@@ -65,6 +88,7 @@ Worksheet CSVImporter::importSample(string str_path)
     ASCIMP ascii_importer;
     CSVParser csv_parser();
     bool has_new_format = false;
+    extractProjectName(str_path);
     if(AscImpReadFileStruct(str_path, &ascii_importer) != 0)
     {
     	string str_temp = str_path;

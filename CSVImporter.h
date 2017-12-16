@@ -10,8 +10,12 @@ class CSVImporter
 private:
     bool baseline;
     bool new_format;
+    string project_name;
 public:
     CSVImporter();
+    string extractProjectName(string project_path);
+    void setProjectName(string project_name);
+    string getProjectName();
     void setNewFormat(bool has_new_format);
     bool hasNewFormat();
     int findWaveLength(Worksheet *wks,int user_input);
