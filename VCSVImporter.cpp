@@ -54,7 +54,7 @@ main()
                     valid_input = false;
                     continue;
                 }
-                int wl_input_user =  atoi(str_row);
+                double wl_input_user =  atof(str_row);
                 row_number = csv_importer.findWaveLength(&wks,wl_input_user);
 
                 csv_importer.generateSample(&wks, row_number, time_interval);

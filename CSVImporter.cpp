@@ -144,29 +144,72 @@ Worksheet CSVImporter::importSample(string str_path)
     return wks;
 }
 
-int CSVImporter::findWaveLength(Worksheet *wks,int user_input)
+int CSVImporter::findWaveLength(Worksheet *wks,double user_input)
 {
-    int user_row = -1;
+    int row = -1;
     int i, j = 0;
+    double aux1, aux2, aux3;
     Column col = wks->Columns(0);
     vectorbase &data_column = col.GetDataObject();
-    for (i = 0; i < data_column.GetSize(); i++)
+
+    if(user_input > data_column[0])
     {
-        if(data_column[i] < user_input)
+        row = 0;
+    }
+    else if (user_input < data_column.GetSize() - 1)
+    {
+        row = data_column.GetSize() -1
+    }
+    else
+    {
+        for (i = 0; i < data_column.GetSize(); i++)
         {
-            user_row = i+1;
-            break;
+            if(user_input >= data_column[i])
+            {
+                row = i;
+                break;
+            }
+        }
+        if(row == 0)
+        {
+
+        }
+        else if (row == data_column.GetSize() - 1)
+        {
+            aux1 = abs(user_input - data_column[row - 1 ]);
+            aux2 = abs(user_input - data_column[row]);
+            if (aux1 < aux2)
+            {
+                row = row - 1;
+            }
+        }
+        else
+        {
+            aux1 = abs(user_input - data_column[row - 1 ]);
+            aux2 = abs(user_input - data_column[row]);
+            aux3 = abs(user_input - data_column[row + 1]);
+
+            if (aux1 < aux2)
+            {
+                if (aux1 < aux3)
+                {
+                    row = row - 1;
+                }
+                else
+                {
+                    row = row + 1;
+                }
+            }
+            else
+            {
+                if (aux3 < aux2)
+                {
+                    row = row + 1;
+                }
+            }
         }
     }
-    if (user_row > data_column[0])
-    {
-        user_row = 1;
-    }
-    else if (user_row < 0)
-    {
-        user_row = data_column.GetSize() - 1;
-    }
-    return user_row;
+    return row;
 }
 
 void CSVImporter::plotWorksheet(Worksheet wks)

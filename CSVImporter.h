@@ -18,7 +18,7 @@ public:
     string getProjectName();
     void setNewFormat(bool has_new_format);
     bool hasNewFormat();
-    int findWaveLength(Worksheet *wks,int user_input);
+    int findWaveLength(Worksheet *wks,double user_input);
     void setBaseline(bool has_baseline);
     bool getBaseline();
     void deleteBaseline(Worksheet *wks);
