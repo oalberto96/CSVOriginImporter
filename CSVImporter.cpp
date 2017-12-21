@@ -88,7 +88,7 @@ Worksheet CSVImporter::importSample(string str_path)
     ASCIMP ascii_importer;
     CSVParser csv_parser();
     bool has_new_format = false;
-    setProjectName(extractProjectName(str_path));
+    setProjectName(GetFileName(str_path,TRUE));
 
     setNewFormat(csv_parser.findNewFormat(str_path));
 
