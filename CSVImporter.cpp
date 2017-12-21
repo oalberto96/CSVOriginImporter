@@ -162,7 +162,7 @@ int CSVImporter::findWaveLength(Worksheet *wks,int user_input)
     }
     else if (user_row < 0)
     {
-        user_row = data_column.GetSize();
+        user_row = data_column.GetSize() - 1;
     }
     return user_row;
 }
