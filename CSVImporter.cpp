@@ -22,7 +22,7 @@ void CSVImporter::setProjectName(string project_name)
 
 string CSVImporter::getProjectName()
 {
-    return this->baseline
+    return this->project_name;
 }
 
 string CSVImporter::extractProjectName(string project_path)
@@ -88,7 +88,8 @@ Worksheet CSVImporter::importSample(string str_path)
     ASCIMP ascii_importer;
     CSVParser csv_parser();
     bool has_new_format = false;
-    extractProjectName(str_path);
+    setProjectName(extractProjectName(str_path));
+
     setNewFormat(csv_parser.findNewFormat(str_path));
 
     if(AscImpReadFileStruct(str_path, &ascii_importer) != 0)
@@ -120,6 +121,7 @@ Worksheet CSVImporter::importSample(string str_path)
     out_str(str_path);
     WorksheetPage wksPage;
     wksPage.Create("STAT", CREATE_VISIBLE );
+    wksPage.SetLongName(getProjectName());
     int index = wksPage.AddLayer("New Sheet");
     Worksheet wks = wksPage.Layers(index);
     Worksheet tmp = wksPage.Layers(0);
