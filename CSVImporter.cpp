@@ -246,7 +246,8 @@ void CSVImporter::generateSample(Worksheet *wks, int user_row, int time_interval
     //Column LnAA0
     Column col_LnAA0(wks_sample, 3);
     column_operator.columnLn(col_LnAA0);
-    col_LnAA0.SetName("LnAA0");
+    col_LnAA0.SetName("Ln" + getProjectName());
+    col_LnAA0.SetLongName("Ln" + getProjectName());
     //plot
     string graph_name = "GraficaMuestra" + user_row;
     DataRange data_range;
