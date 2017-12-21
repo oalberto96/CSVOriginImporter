@@ -122,6 +122,8 @@ Worksheet CSVImporter::importSample(string str_path)
     WorksheetPage wksPage;
     wksPage.Create("STAT", CREATE_VISIBLE );
     wksPage.SetLongName(getProjectName());
+    Folder fld = wksPage.GetFolder();
+    fld.Rename(getProjectName());
     int index = wksPage.AddLayer("New Sheet");
     Worksheet wks = wksPage.Layers(index);
     Worksheet tmp = wksPage.Layers(0);
